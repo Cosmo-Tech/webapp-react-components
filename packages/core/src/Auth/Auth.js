@@ -1,5 +1,4 @@
-import azureAAD from '../../../azure/src/AuthAAD'
-import authDev from '../../../core/src/AuthDev'
+import AuthDev from '..'
 
 // Functions to read & write from storage.
 // Notes : local storage works on Chromium but not on Firefox if "Delete
@@ -21,17 +20,13 @@ let currentProvider
 const onAuthChangeCallbacks = []
 
 const providers = {
-  azureAAD: 'azure-aad',
   authDev: 'auth-dev'
 }
 
 function setProvider (newProvider) {
   switch (newProvider) {
-    case providers.azureAAD:
-      currentProvider = azureAAD
-      break
     case providers.authDev:
-      currentProvider = authDev
+      currentProvider = AuthDev
       break
     default:
       console.error('Unknown provider "' + newProvider + '"')

@@ -1,4 +1,4 @@
-import AuthDev from '..'
+import { AuthDev } from '..'
 
 // Functions to read & write from storage.
 // Notes : local storage works on Chromium but not on Firefox if "Delete

@@ -23,7 +23,7 @@ function isAsync () {
 
 function isUserSignedIn (callback) {
   setDefaultUser()
-  callback(authData)
+  callback(authData !== null)
 }
 
 function getUserName () {

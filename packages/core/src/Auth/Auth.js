@@ -1,10 +1,7 @@
-import { AuthDev } from '..'
-
 // Functions to read & write from storage.
 // Notes : local storage works on Chromium but not on Firefox if "Delete
 // cookies and site data when Firefox is closed" is selected (for more
 // details, see https://bugzilla.mozilla.org/show_bug.cgi?id=1453699)
-
 function writeToStorage (key, value) {
   localStorage.setItem(key, value)
 }
@@ -16,30 +13,43 @@ function clearFromStorage (key) {
 }
 
 // Currently selected provider
-let currentProvider
+let currentProvider = undefined
+// Dict of registered providers
+const providers = {}
+// List of callbacks to call on authentication data change
 const onAuthChangeCallbacks = []
 
-const providers = {
-  authDev: 'auth-dev'
+
+function addProvider (newProvider) {
+  // Check that provider name is defined
+  if (newProvider.name === undefined) {
+    console.warn('Trying to add a provider without name. Please make sure ' +
+      'that the provider name is defined and exported.')
+  }
+  // Do nothing if provider already exists
+  else if (providers[newProvider.name] !== undefined) {
+    console.warn('Provider "' + newProvider.name + '" already exists')
+  } else {
+    // Otherwise, store new provider
+    providers[newProvider.name] = newProvider
+  }
 }
 
-function setProvider (newProvider) {
-  switch (newProvider) {
-    case providers.authDev:
-      currentProvider = AuthDev
-      break
-    default:
-      console.error('Unknown provider "' + newProvider + '"')
-      currentProvider = undefined
-  }
-
-  if (currentProvider !== undefined) {
+function setProvider (providerName) {
+  // Set new provider if it exists
+  if (providers[providerName] === undefined) {
+    console.error('Provider "' + providerName + '" does not exist, you have ' +
+      'to register authentication providers with "addProvider" function ' +
+      'before using them')
+    currentProvider = undefined
+  } else {
+    currentProvider = providers[providerName]
     // Update callbacks for the new provider
     if (currentProvider.setAuthChangeCallbacks) {
       currentProvider.setAuthChangeCallbacks(onAuthChangeCallbacks)
     }
     // Store the provider used in local storage
-    writeToStorage('authProvider', newProvider)
+    writeToStorage('authProvider', providerName)
   }
 }
 
@@ -48,9 +58,9 @@ function setProvider (newProvider) {
 // this provider will be selected
 function initProviderIfNull () {
   if (currentProvider === undefined) {
-    const newProvider = readFromStorage('authProvider')
-    if (newProvider !== undefined && newProvider !== null) {
-      setProvider(newProvider)
+    const newProviderName = readFromStorage('authProvider')
+    if (newProviderName !== undefined && newProviderName !== null) {
+      setProvider(newProviderName)
     }
   }
 }
@@ -108,6 +118,7 @@ function getUserPicUrl () {
 }
 
 const auth = {
+  addProvider,
   setProvider,
   signIn,
   signOut,
@@ -116,7 +127,6 @@ const auth = {
   getUserName,
   getUserId,
   getUserPicUrl,
-  providers,
   isAsync
 }
 export default auth

@@ -1,3 +1,4 @@
+const name = 'auth-dev'
 let authData = null
 
 function setDefaultUser () {
@@ -44,6 +45,7 @@ function getUserPicUrl () {
 }
 
 const AuthDev = {
+  name,
   signIn,
   signOut,
   isUserSignedIn,

@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/Cosmo-Tech/webapp-react-components/issues"
   },
-  "homepage": "https://github.com/Cosmo-Tech/webapp-react-components#readme"
+  "homepage": "https://github.com/Cosmo-Tech/webapp-react-components#readme",
+  "dependencies": {
+    "@azure/msal-browser": "^2.8.0"
+  }
 }

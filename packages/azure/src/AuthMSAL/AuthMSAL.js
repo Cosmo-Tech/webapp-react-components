@@ -38,6 +38,8 @@ async function acquireTokenSilent() {
     account: account
   }
   return await msalApp.acquireTokenSilent(tokenReq).then(function(tokenRes) {
+    console.log('token acquired silently:')
+    console.log(tokenRes.accessToken)
     return tokenRes.accessToken
   }).catch(function (error) {
     if(error.errorMessage === undefined) {
@@ -46,6 +48,8 @@ async function acquireTokenSilent() {
     else if(error.errorMessage.indexOf('interaction_required') !== -1) {
       msalApp.acquireTokenPopup(tokenReq).then(function(tokenRes) {
         // Token acquired with interaction
+        console.log('token acquired with interaction:')
+        console.log(tokenRes.accessToken)
         return tokenRes.accessToken
       }).catch(function(error) {
         // Token retrieval failed
@@ -77,6 +81,8 @@ function selectAccount () {
 }
 
 function handleResponse(response) {
+  console.log('token acquired from login:')
+  console.log(response)
   if (response !== null) {
     authData.authenticated = true
     authData.accountId = response.account.homeAccountId

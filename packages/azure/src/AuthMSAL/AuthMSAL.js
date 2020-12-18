@@ -1,6 +1,6 @@
 import * as msal from '@azure/msal-browser'
 
-const name = 'auth-b2c'
+const name = 'auth-msal'
 const authData = {
   authenticated: false,
   accountId: undefined,
@@ -16,8 +16,8 @@ function setConfig (newConfig) {
 
 function checkInit () {
   if (msalApp === null) {
-    console.error('AuthB2C module has not been initialized. Make sure you ' +
-      'call the setConfig function when you add the AuthB2C provider.')
+    console.error('AuthMSAL module has not been initialized. Make sure you ' +
+      'call the setConfig function when you add the AuthMSAL provider.')
     return false
   }
   return true
@@ -161,7 +161,7 @@ function getUserPicUrl() {
   return undefined
 }
 
-const AuthB2C = {
+const AuthMSAL = {
   name,
   signIn,
   signOut,
@@ -172,4 +172,4 @@ const AuthB2C = {
   isAsync,
   setConfig
 }
-export default AuthB2C
+export default AuthMSAL

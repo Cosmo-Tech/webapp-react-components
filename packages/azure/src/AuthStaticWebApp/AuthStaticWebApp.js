@@ -1,4 +1,4 @@
-const name = 'auth-aad'
+const name = 'auth-static-web-app'
 let authData = null
 
 function getBaseUrl () {
@@ -58,7 +58,7 @@ function getUserPicUrl () {
   return undefined
 }
 
-const AuthAAD = {
+const AuthStaticWebApp = {
   name,
   signIn,
   signOut,
@@ -68,4 +68,4 @@ const AuthAAD = {
   getUserPicUrl,
   isAsync
 }
-export default AuthAAD
+export default AuthStaticWebApp

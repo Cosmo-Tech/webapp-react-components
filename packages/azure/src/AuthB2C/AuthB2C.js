@@ -24,8 +24,7 @@ function checkInit () {
 }
 
 function redirectOnAuthSuccess() {
-
-  // window.location.href = '/'
+  window.location.href = '/'
 }
 
 async function acquireTokenSilent() {

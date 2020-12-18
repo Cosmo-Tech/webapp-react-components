@@ -1,5 +1,19 @@
 import * as msal from '@azure/msal-browser'
 
+// Functions to read & write from storage.
+// Notes : local storage works on Chromium but not on Firefox if "Delete
+// cookies and site data when Firefox is closed" is selected (for more
+// details, see https://bugzilla.mozilla.org/show_bug.cgi?id=1453699)
+function writeToStorage (key, value) {
+  localStorage.setItem(key, value)
+}
+function readFromStorage (key) {
+  return localStorage.getItem(key)
+}
+function clearFromStorage (key) {
+  localStorage.removeItem(key)
+}
+
 const name = 'auth-msal'
 const authData = {
   authenticated: false,
@@ -77,6 +91,7 @@ function selectAccount () {
 }
 
 function handleResponse(response) {
+  writeToStorage('authIdToken', response.idToken)
   if (response !== null) {
     authData.authenticated = true
     authData.accountId = response.account.homeAccountId
@@ -115,6 +130,7 @@ function signOut () {
     return
   }
 
+  clearFromStorage('authIdToken')
   const logoutRequest = {
     account: msalApp.getAccountByHomeId(authData.accountId)
   }

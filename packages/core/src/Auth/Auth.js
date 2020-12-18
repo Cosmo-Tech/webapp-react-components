@@ -71,6 +71,7 @@ function signIn () {
 }
 
 function signOut () {
+  initProviderIfNull()
   // Clear last auth provider used from local storage
   clearFromStorage('authProvider')
   return currentProvider.signOut()

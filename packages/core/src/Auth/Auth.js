@@ -19,12 +19,12 @@ const providers = {}
 // List of callbacks to call on authentication data change
 const onAuthChangeCallbacks = []
 
-
 function addProvider (newProvider) {
   // Check that provider name is defined
   if (newProvider.name === undefined) {
-    console.warn('Trying to add a provider without name. Please make sure ' +
+    console.error('Trying to add a provider without name. Please make sure ' +
       'that the provider name is defined and exported.')
+    return null
   }
   // Do nothing if provider already exists
   else if (providers[newProvider.name] !== undefined) {
@@ -33,6 +33,7 @@ function addProvider (newProvider) {
     // Otherwise, store new provider
     providers[newProvider.name] = newProvider
   }
+  return providers[newProvider.name]
 }
 
 function setProvider (providerName) {

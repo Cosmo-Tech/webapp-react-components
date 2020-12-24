@@ -33,10 +33,16 @@ async function acquireTokenSilent() {
   }
 
   const account = msalApp.getAllAccounts()[0]
-  const tokenReq = {
-    scopes: ['user.read'],
-    account: account
+  let tokenReq = config.accessRequest
+  if (!tokenReq) {
+    console.log('No base token request provided')
+    tokenReq = {
+      scopes: ['user.read']
+    }
   }
+
+  tokenReq.account = account
+
   return await msalApp.acquireTokenSilent(tokenReq).then(function(tokenRes) {
     console.log('token acquired silently:')
     console.log(tokenRes.accessToken)

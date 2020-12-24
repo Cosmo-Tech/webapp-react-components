@@ -58,7 +58,7 @@ async function acquireTokenSilent() {
   tokenReq.account = account
 
   return await msalApp.acquireTokenSilent(tokenReq).then(function(tokenRes) {
-    return tokenRes.accessToken
+    return tokenRes
   }).catch(function (error) {
     if(error.errorMessage === undefined) {
       console.error(error)
@@ -66,7 +66,7 @@ async function acquireTokenSilent() {
     else if(error.errorMessage.indexOf('interaction_required') !== -1) {
       msalApp.acquireTokenPopup(tokenReq).then(function(tokenRes) {
         // Token acquired with interaction
-        return tokenRes.accessToken
+        return tokenRes
       }).catch(function(error) {
         // Token retrieval failed
         return undefined
@@ -97,7 +97,7 @@ function selectAccount () {
 }
 
 function handleResponse(response) {
-  writeToStorage('authIdToken', response.idToken)
+  writeToStorage('authIdTokenPopup', response.idToken)
   if (response !== null) {
     authData.authenticated = true
     authData.accountId = response.account.homeAccountId
@@ -136,6 +136,7 @@ function signOut () {
     return
   }
 
+  clearFromStorage('authIdTokenPopup')
   clearFromStorage('authIdToken')
   clearFromStorage('authAccessToken')
   const logoutRequest = {
@@ -154,7 +155,12 @@ async function isUserSignedIn() {
     return true
   }
   // Otherwise, try to acquire a token silently to implement SSO
-  const accessToken = await acquireTokenSilent()
+  const tokens = await acquireTokenSilent()
+  const accessToken = tokens.accessToken
+  const idToken = tokens.idToken
+  if(idToken !== undefined) {
+    writeToStorage('authIdToken', idToken)
+  }
   if(accessToken !== undefined) {
     writeToStorage('authAccessToken', accessToken)
     return true

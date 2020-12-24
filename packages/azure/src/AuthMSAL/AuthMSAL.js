@@ -49,7 +49,7 @@ async function acquireTokenSilent() {
   const account = msalApp.getAllAccounts()[0]
   let tokenReq = config.accessRequest
   if (!tokenReq) {
-    console.log('No base token request provided')
+    console.warn('No base access token request provided')
     tokenReq = {
       scopes: ['user.read']
     }
@@ -137,6 +137,7 @@ function signOut () {
   }
 
   clearFromStorage('authIdToken')
+  clearFromStorage('authAccessToken')
   const logoutRequest = {
     account: msalApp.getAccountByHomeId(authData.accountId)
   }
@@ -155,6 +156,7 @@ async function isUserSignedIn() {
   // Otherwise, try to acquire a token silently to implement SSO
   const accessToken = await acquireTokenSilent()
   if(accessToken !== undefined) {
+    writeToStorage('authAccessToken', accessToken)
     return true
   }
   return false

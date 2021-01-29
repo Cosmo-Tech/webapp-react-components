@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Auth } from '@cosmotech/core'
 import { Box, Menu, MenuItem, withStyles } from '@material-ui/core'
+import profilePlaceholder from '../../assets/profile_placeholder.png'
 
 const useStyles = theme => ({
   menuTrigger: {
@@ -19,6 +20,10 @@ const useStyles = theme => ({
       boxShadow: 'inset 0 0 0 1.5px orange'
     }
   },
+  profilePic: {
+    width: '32px',
+    height: '32px'
+  },
   menu: {
     transform: 'translate3d(0,30px,0) !important'
   },
@@ -34,7 +39,7 @@ class UserInfo extends React.Component {
     this.state = {
       id: '',
       name: '',
-      picUrl: '../../assets/profile_placeholder.png',
+      picUrl: profilePlaceholder,
       isMenuOpened: false,
       anchorEl: null
     }
@@ -89,8 +94,8 @@ class UserInfo extends React.Component {
           aria-haspopup="true"
           onClick={this.handleClick}
           className={`${classes.menuTrigger} ${this.state.isMenuOpened ? 'active' : ''}`}
-          style={{ backgroundImage: `url(${this.state.picUrl})` }
-        }>
+        >
+          <img className={classes.profilePic} src={this.state.picUrl}/>
         </Box>
         <Menu
           className={classes.menu}

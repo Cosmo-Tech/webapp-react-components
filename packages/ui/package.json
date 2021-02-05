@@ -23,14 +23,13 @@
     "url": "https://github.com/Cosmo-Tech/webapp-react-components/issues"
   },
   "homepage": "https://github.com/Cosmo-Tech/webapp-react-components#readme",
-  "dependencies": {
-    "@rollup/plugin-babel": "^5.2.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.10",
     "@babel/preset-react": "^7.12.10",
+    "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-image": "^2.0.5",
     "@rollup/plugin-node-resolve": "^11.0.0",

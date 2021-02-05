@@ -92,6 +92,7 @@ class UserInfo extends React.Component {
         <Box
           aria-controls="simple-menu"
           aria-haspopup="true"
+          data-cy="user-profile-menu"
           onClick={this.handleClick}
           className={`${classes.menuTrigger} ${this.state.isMenuOpened ? 'active' : ''}`}
         >
@@ -106,7 +107,7 @@ class UserInfo extends React.Component {
           onClose={this.handleClick}
         >
           <MenuItem className={classes.menuHead} disabled>{this.state.name}</MenuItem>
-          <MenuItem onClick={() => {
+          <MenuItem data-cy="logout" onClick={() => {
             Auth.signOut()
           }}>Logout</MenuItem>
         </Menu>

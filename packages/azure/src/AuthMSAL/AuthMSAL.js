@@ -156,13 +156,11 @@ async function isUserSignedIn() {
   }
   // Otherwise, try to acquire a token silently to implement SSO
   const tokens = await acquireTokenSilent()
-  const accessToken = tokens.accessToken
-  const idToken = tokens.idToken
-  if(idToken !== undefined) {
-    writeToStorage('authIdToken', idToken)
+  if(tokens !== undefined && tokens.idToken !== undefined) {
+    writeToStorage('authIdToken', tokens.idToken)
   }
-  if(accessToken !== undefined) {
-    writeToStorage('authAccessToken', accessToken)
+  if(tokens !== undefined && tokens.accessToken !== undefined) {
+    writeToStorage('authAccessToken', tokens.accessToken)
     return true
   }
   return false

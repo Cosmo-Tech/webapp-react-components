@@ -18,25 +18,29 @@ function isAsync () {
   return true
 }
 
-function isUserSignedIn (callback) {
+// TODO: use Error-First Callback pattern (warning: doing so may break
+// compatibility with existing apps)
+function isUserSignedIn (callbackFunction) {
   // Return true if already authenticated
   if (authData) {
-    callback(authData !== null)
+    callbackFunction(authData !== null)
   }
   // Otherwise, try to acquire a token silently to implement SSO
-  acquireUserInfo(callback)
+  acquireUserInfo(callbackFunction)
 }
 
-function acquireUserInfo (callback) {
+// TODO: use Error-First Callback pattern (warning: doing so may break
+// compatibility with existing apps)
+function acquireUserInfo (callbackFunction) {
   fetch(getBaseUrl() + '/.auth/me')
     .then(response => response.json())
     .then(data => {
       authData = data.clientPrincipal
-      callback(authData !== null)
+      callbackFunction(authData !== null)
     })
     .catch(error => {
       console.error(error)
-      callback(false)
+      callbackFunction(false)
     })
 }
 

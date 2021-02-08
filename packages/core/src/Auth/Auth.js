@@ -13,7 +13,7 @@ function clearFromStorage (key) {
 }
 
 // Currently selected provider
-let currentProvider = undefined
+let currentProvider
 // Dict of registered providers
 const providers = {}
 // List of callbacks to call on authentication data change
@@ -25,9 +25,8 @@ function addProvider (newProvider) {
     console.error('Trying to add a provider without name. Please make sure ' +
       'that the provider name is defined and exported.')
     return null
-  }
-  // Do nothing if provider already exists
-  else if (providers[newProvider.name] !== undefined) {
+  } else if (providers[newProvider.name] !== undefined) {
+    // Do nothing if provider already exists
     console.warn('Provider "' + newProvider.name + '" already exists')
   } else {
     // Otherwise, store new provider

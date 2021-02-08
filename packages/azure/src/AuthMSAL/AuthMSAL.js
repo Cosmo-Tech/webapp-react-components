@@ -7,6 +7,7 @@ import * as msal from '@azure/msal-browser'
 function writeToStorage (key, value) {
   localStorage.setItem(key, value)
 }
+// eslint-disable-next-line no-unused-vars
 function readFromStorage (key) {
   return localStorage.getItem(key)
 }
@@ -68,6 +69,7 @@ async function acquireTokenSilent () {
         return tokenRes
       }).catch(function (error) {
         // Token retrieval failed
+        console.warn(error)
         return undefined
       })
     }

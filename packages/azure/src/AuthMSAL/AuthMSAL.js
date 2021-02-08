@@ -18,8 +18,8 @@ const name = 'auth-msal'
 const authData = {
   authenticated: false,
   accountId: undefined,
-  username: undefined,
-};
+  username: undefined
+}
 let config = null
 let msalApp = null
 
@@ -37,11 +37,11 @@ function checkInit () {
   return true
 }
 
-function redirectOnAuthSuccess() {
+function redirectOnAuthSuccess () {
   window.location.href = '/'
 }
 
-async function acquireTokenSilent() {
+async function acquireTokenSilent () {
   if (!checkInit()) {
     return
   }
@@ -57,17 +57,16 @@ async function acquireTokenSilent() {
 
   tokenReq.account = account
 
-  return await msalApp.acquireTokenSilent(tokenReq).then(function(tokenRes) {
+  return await msalApp.acquireTokenSilent(tokenReq).then(function (tokenRes) {
     return tokenRes
   }).catch(function (error) {
-    if(error.errorMessage === undefined) {
+    if (error.errorMessage === undefined) {
       console.error(error)
-    }
-    else if(error.errorMessage.indexOf('interaction_required') !== -1) {
-      msalApp.acquireTokenPopup(tokenReq).then(function(tokenRes) {
+    } else if (error.errorMessage.indexOf('interaction_required') !== -1) {
+      msalApp.acquireTokenPopup(tokenReq).then(function (tokenRes) {
         // Token acquired with interaction
         return tokenRes
-      }).catch(function(error) {
+      }).catch(function (error) {
         // Token retrieval failed
         return undefined
       })
@@ -82,11 +81,11 @@ function selectAccount () {
   }
 
   const accounts = msalApp.getAllAccounts()
-  if(accounts.length === 0) {
+  if (accounts.length === 0) {
     return
   }
   // Select the 1st account if more than one is detected
-  if(accounts.length > 1) {
+  if (accounts.length > 1) {
     console.warn('Several accounts detected, using the first one by default.')
   }
 
@@ -96,7 +95,7 @@ function selectAccount () {
   redirectOnAuthSuccess()
 }
 
-function handleResponse(response) {
+function handleResponse (response) {
   writeToStorage('authIdTokenPopup', response.idToken)
   if (response !== null) {
     authData.authenticated = true
@@ -128,7 +127,7 @@ function signIn () {
             })
         }
       }
-  })
+    })
 }
 
 function signOut () {
@@ -149,43 +148,43 @@ function isAsync () {
   return false
 }
 
-async function isUserSignedIn() {
+async function isUserSignedIn () {
   // Return true if already authenticated
-  if(authData.authenticated) {
+  if (authData.authenticated) {
     return true
   }
   // Otherwise, try to acquire a token silently to implement SSO
   const tokens = await acquireTokenSilent()
-  if(tokens !== undefined && tokens.idToken !== undefined) {
+  if (tokens !== undefined && tokens.idToken !== undefined) {
     writeToStorage('authIdToken', tokens.idToken)
   }
-  if(tokens !== undefined && tokens.accessToken !== undefined) {
+  if (tokens !== undefined && tokens.accessToken !== undefined) {
     writeToStorage('authAccessToken', tokens.accessToken)
     return true
   }
   return false
 }
 
-function getUserName() {
+function getUserName () {
   if (!checkInit()) {
     return
   }
 
-  if(authData.username !== undefined) {
+  if (authData.username !== undefined) {
     return authData.username
   }
   const account = msalApp.getAllAccounts()[0]
-  if(account !== undefined) {
+  if (account !== undefined) {
     return account.name
   }
   return undefined
 }
 
-function getUserId() {
+function getUserId () {
   return authData.accountId
 }
 
-function getUserPicUrl() {
+function getUserPicUrl () {
   return undefined
 }
 

@@ -21,9 +21,11 @@ function isAsync () {
   return true
 }
 
-function isUserSignedIn (callback) {
+// TODO: use Error-First Callback pattern (warning: doing so may break
+// compatibility with existing apps)
+function isUserSignedIn (callbackFunction) {
   setDefaultUser()
-  callback(authData !== null)
+  callbackFunction(authData !== null)
 }
 
 function getUserName () {
